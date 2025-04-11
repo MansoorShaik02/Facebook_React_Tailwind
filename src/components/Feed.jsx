@@ -10,6 +10,10 @@ const getRandomText = () => {
     "Coding all day long!",
     "What a view!",
     "Good morning folks!",
+    "Life is better with coffee ☕",
+    "Dream big, hustle harder!",
+    "Exploring new places 🌍",
+    "Happiness in little things 💫",
   ];
   return texts[Math.floor(Math.random() * texts.length)];
 };
@@ -22,11 +26,14 @@ const Feed = () => {
       const res = await fetch("https://randomuser.me/api/?results=5");
       const data = await res.json();
 
-      const randomPosts = data.results.map((user, index) => ({
-        name: `${user.name.first} ${user.name.last}`,
-        text: getRandomText(),
-        image: `https://picsum.photos/seed/${index}/300/200`,
-      }));
+      const randomPosts = data.results.map((user) => {
+        const randomSeed = Math.floor(Math.random() * 1000); // ensures unique image
+        return {
+          name: `${user.name.first} ${user.name.last}`,
+          text: getRandomText(),
+          image: `https://picsum.photos/seed/${randomSeed}/500/300`, // larger size for better visuals
+        };
+      });
 
       setPosts(randomPosts);
     };
@@ -41,7 +48,7 @@ const Feed = () => {
           <Post key={index} {...post} />
         ))}
       </div>
-      <RightSidebar></RightSidebar>
+      <RightSidebar />
     </div>
   );
 };
